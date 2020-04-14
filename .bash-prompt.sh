@@ -1,0 +1,73 @@
+# Colors!
+reset='\033[0m'
+black='\033[0;30m'
+red='\033[0;31m'
+green='\033[0;32m'
+orange='\033[0;33m'
+blue='\033[0;34m'
+purple='\033[0;35m'
+cyan='\033[0;36m'
+light_gray='\033[0;37m'
+dark_gray='\033[1;30m'
+light_red='\033[1;31m'
+light_green='\033[1;32m'
+yellow='\033[1;33m'
+light_blue='\033[1;34m'
+light_purple='\033[1;35m'
+light_cyan='\033[1;36m'
+white='\033[1;37m'
+
+[ -r $HOME/.git-prompt.sh ] && . $HOME/.git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+
+__errno_ps1() {
+    code=$?
+    fmt=$1
+    if [ $code -eq 0 ]; then
+        printf "$light_green"
+        printf "$fmt" $code
+    else
+        printf "$light_red"
+        printf "$fmt" $code
+    fi
+    printf "$reset"
+}
+__errsym_ps1() {
+    if [ -z $ERRNO ] || [ $ERRNO -eq 0 ]; then
+        printf "$light_green"
+        printf "[0] "
+    else
+        printf "$light_red"
+        printf "[!] "
+    fi
+    printf "$reset"
+}
+__rvm_ps1() {
+    if [ -r $HOME/.rvm/bin/rvm-prompt ]; then
+        local gemset=$(~/.rvm/bin/rvm-prompt g)
+        if [ ! -z "$gemset" ]; then
+            printf "($gemset) "
+        fi
+    fi
+}
+__nvm_ps1() {
+  if command -v nvm >/dev/null; then
+    local version=$(nvm current)
+    if [ ! -z "$version" ]; then
+      printf "(node $version) "
+    fi
+  fi
+}
+#PS1_errno='$(__errno_ps1 "[%03d] ")'
+PS1_errno='$(__errsym_ps1)'
+PS1_git="$yellow"'$(__git_ps1 "(%s) ")'"$reset"
+PS1_dir="$light_blue"'\w '"$reset"
+PS1_rvm='$(__rvm_ps1)'
+PS1_nvm='$(__nvm_ps1)'
+export PS1="$PS1_rvm$PS1_git$PS1_dir$PS1_errno\n\$ "
+
+# Print newline before each prompt
+# If we add a '\n' newline char to the PS1 string, it causes issues when scripts
+# like pyenv prepend stuff to the prompt. If we define it this way, we get a
+# newline before the prepended prompt stuff.
+export PROMPT_COMMAND='export ERRNO=$?; echo'
