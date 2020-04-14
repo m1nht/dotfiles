@@ -1,3 +1,5 @@
+# TODO: Add some official-looking header with like copyrights and stuff.
+
 # Colors!
 reset='\033[0m'
 black='\033[0;30m'
