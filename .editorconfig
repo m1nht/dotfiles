@@ -1,0 +1,31 @@
+# https://editorconfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = false
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.py]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+
+[*.{h,hpp,c,cc,cpp}]
+insert_final_newline = true
+
+[{GNUmakefile,makefile,Makefile}]
+indent_style = tab
+
+[*.{html,css,js,jsx,json}]
+indent_size = 2
+
+# Using google style for shell scripts
+[*.sh]
+indent_style = space
+indent_size = 2
